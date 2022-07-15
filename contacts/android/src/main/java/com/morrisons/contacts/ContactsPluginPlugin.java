@@ -6,6 +6,12 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 
+import org.json.JSONArray;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 @CapacitorPlugin(name = "ContactsPlugin")
 public class ContactsPluginPlugin extends Plugin {
 
@@ -22,15 +28,17 @@ public class ContactsPluginPlugin extends Plugin {
 
     @PluginMethod()
     public void getContacts(PluginCall call) {
-
         ArrayList<Map> contactList = new ArrayList<>();
         Map<String,String> map =  new HashMap<String, String>();
- 
-        map.put("firstName", "Arif");
-        map.put("lastName", "Shaikh");
-        map.put("telephone", "1111111111");
-
+        map.put("firstName", "John");
+        map.put("lastName", "Doe");
+        map.put("telephone", "1111122222");
         contactList.add(map);
-        call.resolve(contactList);
+
+        JSONArray jsonArray = new JSONArray(contactList);
+        JSObject ret = new JSObject();
+        ret.put("results", jsonArray);
+
+        call.resolve(ret);
     }
 }
